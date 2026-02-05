@@ -111,6 +111,24 @@
             30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
             40%, 60% { transform: translate3d(4px, 0, 0); }
         }
+
+        /* Dash Transition for No Button */
+        #no-btn {
+            transition: all 0.15s cubic-bezier(0.25, 0.1, 0.25, 1);
+            box-shadow: 0 0 0 rgba(239, 68, 68, 0);
+        }
+
+        .runaway-glow {
+            animation: blink-red 0.3s infinite alternate;
+            box-shadow: 0 0 20px #ef4444 !important;
+            border-color: #ef4444 !important;
+            color: #ef4444 !important;
+        }
+
+        @keyframes blink-red {
+            from { opacity: 1; transform: scale(1); }
+            to { opacity: 0.8; transform: scale(1.1); }
+        }
     </style>
 </head>
 <body class="flex items-center justify-center p-4 min-h-screen">
@@ -197,7 +215,7 @@
                 <button id="yes-btn" class="pulse-pink bg-gradient-to-r from-pink-500 to-red-500 text-white font-bold py-4 px-12 rounded-full text-xl shadow-xl transition-all duration-300 z-20">
                     YES, I ACCEPT! ❤️
                 </button>
-                <button id="no-btn" class="bg-white text-gray-400 font-semibold py-3 px-8 rounded-full text-sm border border-gray-200 transition-all duration-200 whitespace-nowrap z-30">
+                <button id="no-btn" class="bg-white text-gray-600 font-bold py-3 px-8 rounded-full text-sm border border-gray-300 shadow-sm transition-all duration-200 whitespace-nowrap z-30 opacity-100">
                     No, I want a divorce
                 </button>
             </div>
@@ -226,22 +244,22 @@
         function playRomanticSong() {
             if (!audioContext) return;
                         const notes = [
-                    { f: 261.63, d: 0.5 }, // C4
-                    { f: 293.66, d: 0.5 }, // D4
-                    { f: 329.63, d: 1.0 }, // E4
+  { f: 261.63, d: 0.5 }, // C4
+  { f: 293.66, d: 0.5 }, // D4
+  { f: 329.63, d: 1.0 }, // E4
 
-                    { f: 329.63, d: 0.5 }, // E4
-                    { f: 349.23, d: 0.5 }, // F4
-                    { f: 392.00, d: 1.0 }, // G4
+  { f: 329.63, d: 0.5 }, // E4
+  { f: 349.23, d: 0.5 }, // F4
+  { f: 392.00, d: 1.0 }, // G4
 
-                    { f: 392.00, d: 0.5 }, // G4
-                    { f: 440.00, d: 0.5 }, // A4
-                    { f: 392.00, d: 1.0 }, // G4
+  { f: 392.00, d: 0.5 }, // G4
+  { f: 440.00, d: 0.5 }, // A4
+  { f: 392.00, d: 1.0 }, // G4
 
-                    { f: 349.23, d: 0.5 }, // F4
-                    { f: 329.63, d: 0.5 }, // E4
-                    { f: 293.66, d: 1.0 }  // D4
-                    ];
+  { f: 349.23, d: 0.5 }, // F4
+  { f: 329.63, d: 0.5 }, // E4
+  { f: 293.66, d: 1.0 }  // D4
+];
             let time = audioContext.currentTime;
             notes.forEach(note => {
                 const osc = audioContext.createOscillator();
@@ -296,14 +314,11 @@
         const overlay = document.getElementById('success-overlay');
         const stamp = document.getElementById('final-stamp');
 
-        const rejectionMsgs = ["Error 404", "Nice try!", "Access Denied", "Try the pink one", "Wrong way!", "Denied!"];
+        const rejectionMsgs = ["Error 404", "Nice try!", "Access Denied", "Try the pink one", "Wrong way!", "Denied!", "Nope!"];
 
         function moveButton(e) {
             if (e) e.preventDefault();
-            // Get card boundaries to keep the button roughly nearby but unreachable
-            const card = document.getElementById('main-card').getBoundingClientRect();
             
-            // Random position across the whole screen to make it impossible to catch on mobile
             const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - 20);
             const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - 20);
             
@@ -311,25 +326,29 @@
             noBtn.style.left = x + 'px';
             noBtn.style.top = y + 'px';
             noBtn.innerText = rejectionMsgs[Math.floor(Math.random() * rejectionMsgs.length)];
+            
+            // Add visual effects
+            noBtn.classList.add('runaway-glow');
+            
+            // Temporary rotation to make it look "panicked"
+            noBtn.style.transform = `rotate(${Math.random() * 40 - 20}deg)`;
         }
 
-        // Desktop Hover
         noBtn.addEventListener('mouseover', moveButton);
-        
-        // Mobile "Pre-emptive" Teleportation
         noBtn.addEventListener('touchstart', (e) => {
-            e.preventDefault(); // Prevents the click from firing
+            e.preventDefault();
             moveButton();
         }, { passive: false });
 
-        // Emergency "In Case She's Too Fast" Click Handler
         noBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            noBtn.innerText = "Error: Too Pretty to Click This";
+            noBtn.innerText = "Too slow! 😉";
             moveButton();
         });
 
         yesBtn.addEventListener('click', () => {
+            // Remove the rogue button when she says yes
+            noBtn.style.display = 'none';
             stamp.classList.add('revealed');
             setTimeout(() => {
                 overlay.classList.remove('hidden');
