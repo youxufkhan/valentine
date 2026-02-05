@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Official 2024 Performance Review</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -13,6 +13,7 @@
             background: linear-gradient(135deg, #fff5f5 0%, #fed7e2 100%);
             overflow-x: hidden;
             min-height: 100vh;
+            touch-action: manipulation;
         }
 
         .heart-bg {
@@ -116,97 +117,87 @@
 
     <div class="heart-bg" id="heart-container"></div>
 
-    <!-- Quiz Section (Shows First) -->
+    <!-- Quiz Section -->
     <div id="quiz-card" class="relative p-8 md:p-12 rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.1)] max-w-lg w-full border border-white/50">
         <div class="text-center mb-8">
             <div class="inline-block bg-red-100 text-red-600 px-4 py-1 rounded-full text-xs font-bold tracking-widest mb-4 uppercase">
                 ⚠️ SECURITY CLEARANCE REQUIRED
             </div>
             <h2 class="text-2xl font-bold text-gray-800">Identity Verification Quiz</h2>
-            <p class="text-gray-500 mt-2">To access this confidential performance review, please verify you are the authorized spouse.</p>
+            <p class="text-gray-500 mt-2">Please verify you are the authorized spouse.</p>
         </div>
 
         <div id="quiz-content">
-            <!-- Start Screen to Enable Audio -->
             <div id="q-init" class="quiz-step text-center">
-                <p class="text-gray-600 mb-6">Verification system offline. Click below to initialize encrypted spouse-detection sequence.</p>
+                <p class="text-gray-600 mb-6">Verification system offline. Click to initialize spouse-detection.</p>
                 <button onclick="initializeQuiz()" class="bg-red-500 text-white font-bold py-3 px-8 rounded-xl hover:bg-red-600 transition shadow-lg">INITIALIZE SYSTEM</button>
             </div>
 
             <div id="q1" class="quiz-step hidden">
                 <p class="font-bold text-gray-700 mb-4">Question 1: Who is the funniest person in this relationship?</p>
                 <div class="space-y-3">
-                    <button onclick="wrongAnswer('q1')" class="w-full p-3 border rounded-xl hover:bg-pink-50 transition text-left">My husband (He paid me to say this)</button>
-                    <button onclick="nextQuestion('q1', 'q2')" class="w-full p-3 border rounded-xl hover:bg-pink-50 transition text-left">Clearly me, have you met him?</button>
-                    <button onclick="wrongAnswer('q1')" class="w-full p-3 border rounded-xl hover:bg-pink-50 transition text-left">The cat/dog.</button>
+                    <button onclick="wrongAnswer('q1')" class="w-full p-3 border rounded-xl hover:bg-pink-50 transition text-left">My husband</button>
+                    <button onclick="nextQuestion('q1', 'q2')" class="w-full p-3 border rounded-xl hover:bg-pink-50 transition text-left">Obviously me</button>
+                    <button onclick="wrongAnswer('q1')" class="w-full p-3 border rounded-xl hover:bg-pink-50 transition text-left">The pets</button>
                 </div>
             </div>
 
             <div id="q2" class="quiz-step hidden">
                 <p class="font-bold text-gray-700 mb-4">Question 2: What is your husband's most annoying habit?</p>
                 <div class="space-y-3">
-                    <button onclick="nextQuestion('q2', 'q3')" class="w-full p-3 border rounded-xl hover:bg-pink-50 transition text-left">Snoring like a diesel engine.</button>
-                    <button onclick="nextQuestion('q2', 'q3')" class="w-full p-3 border rounded-xl hover:bg-pink-50 transition text-left">Leaving socks as trail markers.</button>
-                    <button onclick="nextQuestion('q2', 'q3')" class="w-full p-3 border rounded-xl hover:bg-pink-50 transition text-left">Being too handsome (Correct Answer).</button>
+                    <button onclick="nextQuestion('q2', 'q3')" class="w-full p-3 border rounded-xl hover:bg-pink-50 transition text-left">Snoring</button>
+                    <button onclick="nextQuestion('q2', 'q3')" class="w-full p-3 border rounded-xl hover:bg-pink-50 transition text-left">Leaving socks everywhere</button>
+                    <button onclick="nextQuestion('q2', 'q3')" class="w-full p-3 border rounded-xl hover:bg-pink-50 transition text-left">Being too handsome (Correct Answer)</button>
                 </div>
             </div>
 
             <div id="q3" class="quiz-step hidden">
                 <p class="font-bold text-gray-700 mb-4">Final Question: How much do you love your husband?</p>
                 <div class="space-y-3">
-                    <button onclick="finishQuiz()" class="w-full p-3 border rounded-xl hover:bg-pink-50 transition text-left">To the moon and back.</button>
-                    <button onclick="finishQuiz()" class="w-full p-3 border rounded-xl hover:bg-pink-50 transition text-left">More than I love coffee.</button>
-                    <button onclick="finishQuiz()" class="w-full p-3 border rounded-xl hover:bg-pink-50 transition text-left">Enough to not delete this tab immediately.</button>
+                    <button onclick="finishQuiz()" class="w-full p-3 border rounded-xl hover:bg-pink-50 transition text-left">To the moon and back</button>
+                    <button onclick="finishQuiz()" class="w-full p-3 border rounded-xl hover:bg-pink-50 transition text-left">More than coffee</button>
+                    <button onclick="finishQuiz()" class="w-full p-3 border rounded-xl hover:bg-pink-50 transition text-left">Enough to stay for the review</button>
                 </div>
             </div>
         </div>
-        <p id="error-msg" class="text-red-500 text-sm mt-4 text-center hidden">Access Denied. Try again!</p>
+        <p id="error-msg" class="text-red-500 text-sm mt-4 text-center hidden">Access Denied!</p>
     </div>
 
-    <!-- Main Review Card (Hidden Initially) -->
+    <!-- Main Review Card -->
     <div id="main-card" class="relative p-8 md:p-12 rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.1)] max-w-2xl w-full border border-white/50 overflow-hidden hidden-content">
         <div class="confidential-watermark">Top Secret Love</div>
         
-        <!-- Header -->
         <div class="text-center mb-10 relative">
-            <div class="inline-block bg-pink-100 text-pink-600 px-4 py-1 rounded-full text-xs font-bold tracking-widest mb-4 uppercase">
-                File: #WIFE-GOALS-2024
-            </div>
+            <div class="inline-block bg-pink-100 text-pink-600 px-4 py-1 rounded-full text-xs font-bold tracking-widest mb-4 uppercase">File: #WIFE-GOALS-2024</div>
             <h1 class="text-4xl font-extrabold text-gray-800 tracking-tight">Spousal Performance Review</h1>
-            <p class="text-gray-500 mt-2 font-medium">Employee Name: <span class="text-pink-500 font-bold">The Love of My Life</span></p>
+            <p class="text-gray-500 mt-2 font-medium">Reviewee: <span class="text-pink-500 font-bold">The Love of My Life</span></p>
             <div class="w-24 h-1 bg-pink-400 mx-auto mt-4 rounded-full opacity-50"></div>
         </div>
 
-        <!-- Metrics Section -->
         <div class="space-y-4 mb-10">
             <div class="metric-row flex items-center justify-between bg-white/50 p-4 rounded-xl border border-pink-50" style="animation-delay: 0.1s;">
                 <span class="text-gray-700 font-medium">Expertise in Stealing My Hoodies</span>
                 <span class="text-pink-500 font-bold">EXPERT LEVEL</span>
             </div>
             <div class="metric-row flex items-center justify-between bg-white/50 p-4 rounded-xl border border-pink-50" style="animation-delay: 0.2s;">
-                <span class="text-gray-700 font-medium">Patience for My Gaming/Hobbies</span>
-                <span class="text-pink-500">★★★★★+</span>
+                <span class="text-gray-700 font-medium">Radiance When You Wake Up</span>
+                <span class="text-orange-500 font-bold italic text-sm">BLINDS RESIDENTS</span>
             </div>
             <div class="metric-row flex items-center justify-between bg-white/50 p-4 rounded-xl border border-pink-50" style="animation-delay: 0.3s;">
-                <span class="text-gray-700 font-medium">Radiance When You Wake Up</span>
-                <span class="text-orange-500 font-bold uppercase tracking-tighter text-sm italic">Blinds Local Residents</span>
-            </div>
-            <div class="metric-row flex items-center justify-between bg-white/50 p-4 rounded-xl border border-pink-50" style="animation-delay: 0.4s;">
-                <span class="text-gray-700 font-medium">Probability of Me Loving You Forever</span>
-                <span class="text-red-500 font-bold">100.0% (Calculated)</span>
+                <span class="text-gray-700 font-medium">Probability of Forever</span>
+                <span class="text-red-500 font-bold">100.0%</span>
             </div>
         </div>
 
-        <!-- The "Ask" -->
         <div class="text-center mb-10 p-8 rounded-[2rem] bg-gradient-to-br from-pink-50 to-red-50 border border-pink-100 shadow-inner">
             <h2 class="text-2xl font-bold text-gray-800 mb-4">Official Decision Required:</h2>
-            <p class="text-gray-600 mb-8 leading-relaxed italic">"Will you accept the role of my Valentine for another year, including all perks (unlimited forehead kisses) and liabilities (my snoring)?"</p>
+            <p class="text-gray-600 mb-8 italic">"Will you accept the role of my Valentine for another year?"</p>
             
-            <div class="flex flex-col sm:flex-row gap-6 justify-center items-center h-20">
-                <button id="yes-btn" class="pulse-pink bg-gradient-to-r from-pink-500 to-red-500 hover:from-pink-600 hover:to-red-600 text-white font-bold py-4 px-12 rounded-full text-xl shadow-xl transition-all duration-300 z-20">
-                    YES, OBVIOUSLY! ❤️
+            <div class="relative flex flex-col sm:flex-row gap-6 justify-center items-center min-h-[120px]">
+                <button id="yes-btn" class="pulse-pink bg-gradient-to-r from-pink-500 to-red-500 text-white font-bold py-4 px-12 rounded-full text-xl shadow-xl transition-all duration-300 z-20">
+                    YES, I ACCEPT! ❤️
                 </button>
-                <button id="no-btn" class="bg-white/80 text-gray-400 font-semibold py-3 px-8 rounded-full text-sm border border-gray-200 transition-all duration-200 hover:shadow-md cursor-default whitespace-nowrap">
+                <button id="no-btn" class="bg-white/80 text-gray-400 font-semibold py-3 px-8 rounded-full text-sm border border-gray-200 transition-all duration-200 whitespace-nowrap z-30">
                     No, I want a divorce
                 </button>
             </div>
@@ -218,17 +209,14 @@
     </div>
 
     <!-- Celebration Screen -->
-    <div id="success-overlay" class="fixed inset-0 bg-white/95 flex flex-col items-center justify-center hidden z-[100] backdrop-blur-xl">
-        <div class="text-center p-8">
-            <h1 class="text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-red-600 mb-6">BEST. DECISION. EVER.</h1>
-            <p class="text-2xl text-gray-600 mb-10">Contract signed in glitter and love.</p>
-            <div class="text-9xl mb-8 scale-in inline-block" id="big-heart">💖</div>
-            <div class="mt-8 text-gray-400 font-medium animate-pulse uppercase">I love you more than words can say!</div>
-        </div>
+    <div id="success-overlay" class="fixed inset-0 bg-white/95 flex flex-col items-center justify-center hidden z-[100] backdrop-blur-xl text-center">
+        <h1 class="text-5xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-red-600 mb-6">BEST. DECISION. EVER.</h1>
+        <p class="text-xl text-gray-600 mb-10">Contract signed in glitter and love.</p>
+        <div class="text-9xl mb-8 inline-block" id="big-heart">💖</div>
+        <p class="mt-8 text-pink-400 font-medium animate-pulse">I LOVE YOU SO MUCH!</p>
     </div>
 
     <script>
-        // Audio Logic
         let audioContext;
         function initializeQuiz() {
             audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -237,55 +225,46 @@
 
         function playRomanticSong() {
             if (!audioContext) return;
-            const notes = [
-  { f: 261.63, d: 0.5 }, // C4
-  { f: 293.66, d: 0.5 }, // D4
-  { f: 329.63, d: 1.0 }, // E4
+                        const notes = [
+                    { f: 261.63, d: 0.5 }, // C4
+                    { f: 293.66, d: 0.5 }, // D4
+                    { f: 329.63, d: 1.0 }, // E4
 
-  { f: 329.63, d: 0.5 }, // E4
-  { f: 349.23, d: 0.5 }, // F4
-  { f: 392.00, d: 1.0 }, // G4
+                    { f: 329.63, d: 0.5 }, // E4
+                    { f: 349.23, d: 0.5 }, // F4
+                    { f: 392.00, d: 1.0 }, // G4
 
-  { f: 392.00, d: 0.5 }, // G4
-  { f: 440.00, d: 0.5 }, // A4
-  { f: 392.00, d: 1.0 }, // G4
+                    { f: 392.00, d: 0.5 }, // G4
+                    { f: 440.00, d: 0.5 }, // A4
+                    { f: 392.00, d: 1.0 }, // G4
 
-  { f: 349.23, d: 0.5 }, // F4
-  { f: 329.63, d: 0.5 }, // E4
-  { f: 293.66, d: 1.0 }  // D4
-];
-            
+                    { f: 349.23, d: 0.5 }, // F4
+                    { f: 329.63, d: 0.5 }, // E4
+                    { f: 293.66, d: 1.0 }  // D4
+                    ];
             let time = audioContext.currentTime;
             notes.forEach(note => {
                 const osc = audioContext.createOscillator();
                 const gain = audioContext.createGain();
                 osc.type = 'triangle';
                 osc.frequency.setValueAtTime(note.f, time);
-                gain.gain.setValueAtTime(0.1, time);
+                gain.gain.setValueAtTime(0.05, time);
                 gain.gain.exponentialRampToValueAtTime(0.001, time + note.d);
-                osc.connect(gain);
-                gain.connect(audioContext.destination);
-                osc.start(time);
-                osc.stop(time + note.d);
+                osc.connect(gain); gain.connect(audioContext.destination);
+                osc.start(time); osc.stop(time + note.d);
                 time += note.d * 0.8;
             });
-            
-            // Loop the little jingle
-            setTimeout(playRomanticSong, (time - audioContext.currentTime) * 1000 + 1000);
+            setTimeout(playRomanticSong, 4000);
         }
 
-        // Quiz Logic
         function nextQuestion(current, next) {
             document.getElementById(current).classList.add('hidden');
             document.getElementById(next).classList.remove('hidden');
-            document.getElementById('error-msg').classList.add('hidden');
         }
 
         function wrongAnswer(id) {
             const card = document.getElementById('quiz-card');
-            const error = document.getElementById('error-msg');
             card.classList.add('shake');
-            error.classList.remove('hidden');
             setTimeout(() => card.classList.remove('shake'), 500);
         }
 
@@ -293,15 +272,13 @@
             document.getElementById('quiz-card').classList.add('hidden');
             document.getElementById('main-card').classList.remove('hidden-content');
             playRomanticSong();
-            const rows = document.querySelectorAll('.metric-row');
-            rows.forEach(row => row.style.animationPlayState = 'running');
+            document.querySelectorAll('.metric-row').forEach(row => row.style.animationPlayState = 'running');
         }
 
-        // Background Heart Generator
         function createBackgroundHearts() {
             const container = document.getElementById('heart-container');
-            const icons = ['❤️', '💖', '✨', '🌸', '💕'];
-            for (let i = 0; i < 20; i++) {
+            const icons = ['❤️', '💖', '✨', '💕'];
+            for (let i = 0; i < 15; i++) {
                 const heart = document.createElement('div');
                 heart.className = 'floating-heart';
                 heart.innerText = icons[Math.floor(Math.random() * icons.length)];
@@ -319,69 +296,59 @@
         const overlay = document.getElementById('success-overlay');
         const stamp = document.getElementById('final-stamp');
 
-        const rejectionMsgs = [
-            "Nice try, Gorgeous.",
-            "Button malfunction!",
-            "Maybe ask again?",
-            "404: Option Not Found",
-            "Try the big pink one!",
-            "I'm ignoring this click",
-            "Are you even looking?",
-            "Denied by Fate."
-        ];
+        const rejectionMsgs = ["Error 404", "Nice try!", "Access Denied", "Try the pink one", "Wrong way!", "Denied!"];
 
-        function moveButton() {
-            const x = Math.max(20, Math.random() * (window.innerWidth - noBtn.offsetWidth - 40));
-            const y = Math.max(20, Math.random() * (window.innerHeight - noBtn.offsetHeight - 40));
+        function moveButton(e) {
+            if (e) e.preventDefault();
+            // Get card boundaries to keep the button roughly nearby but unreachable
+            const card = document.getElementById('main-card').getBoundingClientRect();
+            
+            // Random position across the whole screen to make it impossible to catch on mobile
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - 20);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - 20);
             
             noBtn.style.position = 'fixed';
-            noBtn.style.zIndex = '50';
             noBtn.style.left = x + 'px';
             noBtn.style.top = y + 'px';
             noBtn.innerText = rejectionMsgs[Math.floor(Math.random() * rejectionMsgs.length)];
-            noBtn.classList.add('shadow-2xl', 'border-red-200', 'text-red-400');
         }
 
+        // Desktop Hover
         noBtn.addEventListener('mouseover', moveButton);
+        
+        // Mobile "Pre-emptive" Teleportation
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault(); // Prevents the click from firing
+            moveButton();
+        }, { passive: false });
+
+        // Emergency "In Case She's Too Fast" Click Handler
         noBtn.addEventListener('click', (e) => {
             e.preventDefault();
+            noBtn.innerText = "Error: Too Pretty to Click This";
             moveButton();
         });
 
         yesBtn.addEventListener('click', () => {
             stamp.classList.add('revealed');
-            
             setTimeout(() => {
                 overlay.classList.remove('hidden');
                 triggerConfetti();
-                document.getElementById('big-heart').animate([
-                    { transform: 'scale(1)' },
-                    { transform: 'scale(1.5)' },
-                    { transform: 'scale(1)' }
-                ], { duration: 1000, iterations: Infinity });
             }, 1000);
         });
 
         function triggerConfetti() {
-            for (let i = 0; i < 150; i++) {
+            for (let i = 0; i < 100; i++) {
                 const conf = document.createElement('div');
                 conf.style.position = 'fixed';
-                conf.style.width = '10px';
-                conf.style.height = '10px';
-                conf.style.backgroundColor = ['#f472b6', '#ec4899', '#fecaca', '#ffffff'][Math.floor(Math.random() * 4)];
+                conf.style.width = '10px'; conf.style.height = '10px';
+                conf.style.backgroundColor = ['#f472b6', '#ec4899', '#fecaca'][Math.floor(Math.random() * 3)];
                 conf.style.left = Math.random() * 100 + 'vw';
-                conf.style.top = '-10px';
-                conf.style.zIndex = '110';
-                conf.style.borderRadius = Math.random() > 0.5 ? '50%' : '0%';
-                
+                conf.style.top = '-10px'; conf.style.zIndex = '110';
                 const anim = conf.animate([
                     { transform: 'translateY(0) rotate(0)', opacity: 1 },
                     { transform: `translateY(100vh) rotate(${Math.random() * 360}deg)`, opacity: 0 }
-                ], {
-                    duration: Math.random() * 3000 + 2000,
-                    easing: 'linear'
-                });
-                
+                ], { duration: Math.random() * 3000 + 2000 });
                 document.body.appendChild(conf);
                 anim.onfinish = () => conf.remove();
             }
